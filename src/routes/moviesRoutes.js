@@ -27,6 +27,39 @@ router.post("/movies/", async (rq, rs) => {
         year
     });
     rs.json(newMovie);
+});
+
+router.put("/movies/:id", async (rq, rs) => {
+    const { id } = rq.params;
+    const { title, director, year } = rq.body;
+
+    const movie = await Movie.findByPk(id);
+
+    if (!movie) {
+        return rs.status(404).send("Pelicula no encontrada.");
+    }
+
+    await movie.update({
+        title,
+        director,
+        year
+    });
+
+    await movie.save();
+
+    rs.json(movie);
+});
+
+router.delete("/movies/:id", async (rq, rs) => {
+    const { id } = rq.params;
+    const movie = await Movie.findByPk(id);
+
+    if (!movie)
+        return rs.status(404).send("Pelicula no encontrada.");
+
+    await movie.destroy();
+
+    rs.send(`Pelicula con ID: ${id} eliminada.`);
 })
 
 export default router;
