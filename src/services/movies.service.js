@@ -1,20 +1,17 @@
-import { Router } from "express";
 import { Movie } from "../models/Movie.js";
 
-const router = Router();
-
-router.get("/movies", async (rq, rs) => {
+export const getMovies = async (rq, rs) => {
     const movies = await Movie.findAll();
     rs.json(movies);
-})
+};
 
-router.get("/movies/:movieId/", async (rq, rs) => {
+export const findMovie = async (rq, rs) => {
     const { movieId } = rq.params;
     const movie = await Movie.findByPk(movieId);
     rs.json(movie);
-})
+};
 
-router.post("/movies/", async (rq, rs) => {
+export const createMovie = async (rq, rs) => {
     const { title, director, year } = rq.body;
 
     if (!title.length) {
@@ -27,9 +24,9 @@ router.post("/movies/", async (rq, rs) => {
         year
     });
     rs.json(newMovie);
-});
+};
 
-router.put("/movies/:id", async (rq, rs) => {
+export const updateMovie = async (rq, rs) => {
     const { id } = rq.params;
     const { title, director, year } = rq.body;
 
@@ -48,9 +45,9 @@ router.put("/movies/:id", async (rq, rs) => {
     await movie.save();
 
     rs.json(movie);
-});
+};
 
-router.delete("/movies/:id", async (rq, rs) => {
+export const deleteMovie = async (rq, rs) => {
     const { id } = rq.params;
     const movie = await Movie.findByPk(id);
 
@@ -60,6 +57,4 @@ router.delete("/movies/:id", async (rq, rs) => {
     await movie.destroy();
 
     rs.send(`Pelicula con ID: ${id} eliminada.`);
-})
-
-export default router;
+};

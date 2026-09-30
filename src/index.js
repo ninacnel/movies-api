@@ -1,6 +1,6 @@
 import express from 'express';
 import { port } from './config.js';
-import router from './routes/moviesRoutes.js';
+import router from './routes/movies.routes.js';
 import { sequelize } from './db.js';
 import morgan from 'morgan';
 import "./models/Movie.js";
