@@ -12,17 +12,32 @@ export const findMovie = async (rq, rs) => {
 };
 
 export const createMovie = async (rq, rs) => {
-    const { title, director, year } = rq.body;
+    const {
+        title,
+        director,
+        year,
+        duration,
+        cast,
+        country,
+        isFree,
+        image
+    } = rq.body;
 
-    if (!title.length) {
+    if (!title || !title.length) {
         return rs.status(400).send("Titulo no puede ser vacio");
     }
 
     const newMovie = await Movie.create({
         title,
         director,
-        year
+        year,
+        duration,
+        cast: cast.join(", "),
+        country,
+        isFree,
+        image
     });
+
     rs.json(newMovie);
 };
 
